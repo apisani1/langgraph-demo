@@ -1,0 +1,58 @@
+# This workflow was inspired by Eric Riddoch's "built-test-publish.yaml"
+# but has been fully re-implemented and adapted for this project.
+
+name: Tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v5
+
+      - name: Cache UV dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-uv-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Install dependencies
+        run: ./run.sh install:all
+
+      - name: Install Playwright browsers
+        run: uv run playwright install webkit --with-deps
+
+      - name: Check code formatting with black
+        run: ./run.sh format:check:black
+
+      - name: Check import sorting with isort
+        run: ./run.sh format:check:isort
+
+      - name: Run type checking with mypy
+        run: ./run.sh lint:mypy
+
+      - name: Run linting with flake8
+        run: ./run.sh lint:flake8
+
+      - name: Run tests
+        run: ./run.sh tests || [ $? -eq 5 ]

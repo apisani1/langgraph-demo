@@ -1,0 +1,52 @@
+# Secrets
+.pypirc
+.env
+
+# Compiled and Cached Files
+__pycache__/
+.mypy_cache/
+.mypy_cache_test/
+.mypy_cache_diff/
+.ipynb_checkpoints/
+.pytest_cache
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Documentation
+docs/_build/
+
+# Test and Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Claude
+.claude/*
+
+# Project notes (local only)
+notes/
+
+# Environment
+.venv
+env/
+venv/
+ENV/
+
+# Misc
+.DS_Store
+*.pkl
+*.pickle

@@ -1,0 +1,179 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+dependencies = [
+    "bs4>=0.0.2",
+    "gradio==5.49.1",
+    "langchain-community>=0.3.20",
+    "langchain-experimental>=0.3.4",
+    "langchain-openai>=0.3.9",
+    "langgraph>=0.3.18",
+    "langgraph-checkpoint-sqlite>=2.0.6",
+    "langsmith>=0.3.18",
+    "lxml>=5.3.1",
+    "openai>=1.68.2",
+    "playwright>=1.51.0",
+    "python-dotenv>=1.0.1",
+]
+
+name = "langgraph-demo"
+version = "0.0.0"
+description = "A short description of the project"
+authors = [{ name = "Antonio Pisani", email = "antonio.pisani@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+langgraph-demo = "langgraph_demo.main:main"
+
+[project.urls]
+"Source Code" = "https://github.com/apisani1/langgraph-demo"
+"Release Notes" = "https://github.com/apisani1/langgraph-demo/releases"
+"Issue Tracker" = "https://github.com/apisani1/langgraph-demo/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/langgraph_demo"]
+
+[dependency-groups]
+dev = ["ipykernel>=6.29.0", "packaging>=24.0"]
+test = ["pytest>=7.4.0", "pytest-cov>=6.1.0", "pytest-asyncio>=0.24.0"]
+lint = [
+    "flake8>=7.1.0",
+    "flake8-pyproject>=1.2.0",
+    "pylint>=3.3.0",
+    "black>=25.1.0",
+    "isort>=6.0.0",
+]
+typing = ["mypy>=1.15"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.black]
+line-length = 119
+
+[tool.flake8]
+extend-ignore = [
+    "W503",
+    # E501: Line too long
+    "E501",
+    # D100: Missing docstring in public module
+    "D100",
+    # D101: Missing docstring in public class
+    "D101",
+    # D102: Missing docstring in public method
+    "D102",
+    # D103: Missing docstring in public function
+    "D103",
+    # D104: Missing docstring in public package
+    "D104",
+    # W605: Invalid escape sequence
+    "W605",
+    # E203: Whitespace before ':'
+    "E203",
+]
+exclude = ["docs", "tests", ".venv", ".git", "__pycache__", "build", "dist"]
+radon-max-cc = 15
+
+[tool.mypy]
+exclude = '^(tests\/test.*\.py|docs\/.*\.py)$'
+python_version = "3.10"
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+show_error_codes = true
+warn_unused_ignores = false
+
+[tool.pylint.MESSAGES_CONTROL]
+disable = [
+    "raw-checker-failed",
+    "bad-inline-option",
+    "locally-disabled",
+    "file-ignored",
+    "suppressed-message",
+    "useless-suppression",
+    "deprecated-pragma",
+    "use-symbolic-message-instead",
+    "use-implicit-booleaness-not-comparison-to-string",
+    "use-implicit-booleaness-not-comparison-to-zero",
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "no-self-argument",
+    "broad-exception-caught",
+    "anomalous-backslash-in-string",
+    "logging-fstring-interpolation",
+    "raise-missing-from",
+    "redefined-builtin",
+    "invalid-overridden-method",
+    "unspecified-encoding",
+    "import-outside-toplevel",
+    "global-statement",
+    "global-variable-not-assigned",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-positional-arguments",
+    "too-many-locals",
+    "too-many-statements",
+    "too-many-branches",
+    "too-many-return-statements",
+    "too-many-instance-attributes",
+    "unnecessary-dunder-call",
+    "duplicate-code",
+    "line-too-long",
+]
+
+[tool.pylint.MASTER]
+ignore = ["tests", "docs", ".venv", ".git", "__pycache__", "build", "dist"]
+
+[tool.isort]
+profile = "black"
+known_first_party = ["langgraph_demo"]
+known_third_party = [
+    "numpy",
+    "pandas",
+    "keras",
+    "tensorflow",
+    "sklearn",
+    "matplotlib",
+    "scipy",
+    "h5py",
+    "seaborn",
+    "numba",
+    "gym",
+    "PyQt6",
+    "PyQt5",
+    "pyqtgraph",
+    "fastapi",
+    "pytest",
+    "uvicorn",
+    "pydantic",
+    "requests",
+    "aiohttp",
+    "databases",
+    "aioredis",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "snappy",
+    "asyncpg",
+    "pytest_asyncio",
+]
+force_single_line = false
+multi_line_output = 3
+force_grid_wrap = 2
+use_parentheses = true
+include_trailing_comma = true
+lines_after_imports = -1
+ensure_newline_before_comments = true
+line_length = 119
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+default_section = "FIRSTPARTY"
+extend_skip = ["tests", "docs", ".venv", ".git", "__pycache__", "build", "dist"]
+
+[tool.doc8]
+max-line-length = 120
+ignore = ["D004", "D002"]
