@@ -190,7 +190,7 @@
     "makefile.configureOnOpen": false,
     "pylint.enabled": true,
     "pylint.path": [
-        "pylint"
+        "uv", "run", "pylint"
     ],
     "pylint.args": [
         "--ignore-paths=^(tests\\/test.*\\.py|scripts\\/.*\\.py|docs\\/.*\\.py)$",
